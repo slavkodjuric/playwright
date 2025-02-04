@@ -1,4 +1,5 @@
 const { test, expect } = require("@playwright/test"); //this is old syntax, new one is import instead of require
+const { beforeEach } = require("node:test");
 
 const heading = "AQA eShop";
 const loginHeading = "Welcome Back! 👋🏻";
@@ -6,9 +7,11 @@ const loginHeading = "Welcome Back! 👋🏻";
 test.describe("selectors", () => {
   //your test case
 
-  test("get by - full expression", async ({ page }) => {
-    await page.goto("/");
+  beforeEach("Visit the app", ({ page }) => {
+    page.goto("/");
+  });
 
+  test("get by - full expression", async ({ page }) => {
     await expect(
       page.locator("span[class='text-5xl font-bold']")
     ).toBeVisible();
