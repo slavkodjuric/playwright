@@ -56,6 +56,10 @@ test.describe("selectors", () => {
 });
 
 test.describe("built in selectors", () => {
+  beforeEach("Visit the app", ({ page }) => {
+    page.goto("/");
+  });
+
   test("get by - text", async ({ page }) => {
     await page.goto("/");
 
