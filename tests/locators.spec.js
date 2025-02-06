@@ -1,5 +1,5 @@
-const { test, expect } = require("@playwright/test"); //this is old syntax, new one is import instead of require
-const { beforeEach } = require("node:test");
+import { test, expect } from "@playwright/test";
+import { beforeEach } from "node:test";
 
 const heading = "AQA eShop";
 const loginHeading = "Welcome Back! 👋🏻";
