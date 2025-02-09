@@ -5,7 +5,7 @@ const heading = "AQA eShop";
 const loginHeading = "Welcome Back! 👋🏻";
 
 test.describe("selectors", () => {
-  //your test case
+  
 
   beforeEach("Visit the app", ({ page }) => {
     page.goto("/");
@@ -31,11 +31,11 @@ test.describe("selectors", () => {
   test("get by - order", async ({ page }) => {
     await page.goto("/");
 
-    //first
+    
     await expect(page.locator("span").first()).toBeVisible();
     await expect(page.locator("span").first()).toHaveText(heading);
 
-    //nth
+    
     await expect(page.locator("span").nth(0)).toBeVisible();
     await expect(page.locator("span").nth(0)).toHaveText(heading);
   });
