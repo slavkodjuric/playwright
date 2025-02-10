@@ -1,7 +1,12 @@
 import { test, expect } from "@playwright/test";
-import { HEADINGS, URLS, utils, VALID_LOGIN_PAYLOAD } from "../fixtures";
-import { beforeEach } from "node:test";
-import { LoginAPI } from "../POM/modules/API/loginAPI";
+import { LoginAPI } from "../../POM/modules/API/loginAPI";
+import {
+  HEADINGS,
+  URLS,
+  utils,
+  VALID_LOGIN_PAYLOAD,
+  generateUserCredentials,
+} from "../../fixtures";
 
 test.describe("login API tests", () => {
   let loginAPI;
@@ -14,7 +19,7 @@ test.describe("login API tests", () => {
       VALID_LOGIN_PAYLOAD["EMAIL"],
       VALID_LOGIN_PAYLOAD["PASSWORD"]
     );
-    console.log(response);
+
     expect(response.status).toBe("Success");
     expect(response.user.email).toBe(VALID_LOGIN_PAYLOAD["EMAIL"]);
   });
@@ -23,16 +28,15 @@ test.describe("login API tests", () => {
     const response = await loginAPI.login(
       VALID_LOGIN_PAYLOAD[""],
       VALID_LOGIN_PAYLOAD["PASSWORD"]
-    )
+    );
     expect(response.status).toBe("The email field is required");
-      
-  })
+  });
 
   test("Login with no password", async ({ page }) => {
     const response = await loginAPI.login(
       VALID_LOGIN_PAYLOAD["EMAIL"],
       VALID_LOGIN_PAYLOAD[""]
-    )
+    );
     expect(response.status).toBe("The password field is required");
-  })
-})
+  });
+});
