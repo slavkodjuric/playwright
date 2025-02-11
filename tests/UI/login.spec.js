@@ -1,15 +1,81 @@
 import { test, expect } from "@playwright/test";
 import { HEADINGS, URLS, utils, VALID_LOGIN_PAYLOAD } from "../../fixtures";
 import { LoginPage } from "../../POM/modules/UI/loginPage";
-import exp from "constants";
 
-test.describe("register a user and log in", () => {
+
+test.describe("log in user", () => {
   let loginPage;
 
   test.beforeEach("visit the login page", async ({ page }) => {
     loginPage = new LoginPage(page);
-    await page.goto(URLS["LOGIN"]);
+    await page.goto(urls["LOGIN"]);
   });
+
+  test("log in attempt without email", async ({ page }) => {
+    await loginPage.heading.waitFor();
+    await expect(loginPage.heading).toHaveText(HEADINGS["LOGIN"]);
+
+    loginPage.login(
+      VALID_LOGIN_PAYLOAD[""],
+      VALID_LOGIN_PAYLOAD["PASSWORD"]
+    );
+
+    await page.waitForURL(URLS["LOGIN"]);
+    await expect(page).toHaveURL(URLS["LOGIN"]);
+  });
+
+  test("log in attempt without password", async ({ page }) => {
+    await loginPage.heading.waitFor();
+    await expect(loginPage.heading).toHaveText(HEADINGS["LOGIN"]);
+
+    loginPage.login(
+      VALID_LOGIN_PAYLOAD["EMAIL"]
+      
+    );
+
+    await page.waitForURL(URLS["LOGIN"]);
+    await expect(page).toHaveURL(URLS["LOGIN"]);
+  });
+
+  test("log in attempt with invalid email format", async ({ page }) => {
+    await loginPage.heading.waitFor();
+    await expect(loginPage.heading).toHaveText(HEADINGS["LOGIN"]);
+
+    loginPage.login(
+      utils.generateRandomString(6),
+      VALID_LOGIN_PAYLOAD["PASSWORD"]
+    );
+
+    await page.waitForURL(URLS["LOGIN"]);
+    await expect(page).toHaveURL(URLS["LOGIN"]);
+  });
+
+  test("log in attempt with invalid password", async ({ page }) => {
+    await loginPage.heading.waitFor();
+    await expect(loginPage.heading).toHaveText(HEADINGS["LOGIN"]);
+
+    loginPage.login(
+      VALID_LOGIN_PAYLOAD["PASSWORD"],
+      utils.generateRandomString(6)
+    );
+
+    await page.waitForURL(URLS["LOGIN"]);
+    await expect(page).toHaveURL(URLS["LOGIN"]);
+  });
+
+  test("log in attempt with invalid credentials", async ({ page }) => {
+    await loginPage.heading.waitFor();
+    await expect(loginPage.heading).toHaveText(HEADINGS["LOGIN"]);
+
+    loginPage.login(
+      utils.generateRandomString(6),
+      utils.generateRandomString(6)
+    );
+
+    await page.waitForURL(URLS["LOGIN"]);
+    await expect(page).toHaveURL(URLS["LOGIN"]);
+  });
+
   test("log in with registered user", async ({ page }) => {
     await loginPage.heading.waitFor();
     await expect(loginPage.heading).toHaveText(HEADINGS["LOGIN"]);
