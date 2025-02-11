@@ -14,9 +14,62 @@ test.describe("register a user", () => {
     registerPage = new RegisterPage(page);
     await page.goto(URLS["REGISTER"]);
   });
+
+  test("register user without username", async({page}) => {
+    const heading = page.locator("h1");
+    
+    await registerPage.heading.waitFor();
+    await expect(registerPage.heading).toHaveText(HEADINGS["REGISTER"]);
+
+    await registerPage.register("", email, password);
+
+    await expect(page).toHaveURL(URLS["DASHBOARD"]);
+
+    await page.waitForURL(URLS["DASHBOARD"]);
+  });
+
+  test("register user without email", async({ page }) => {
+    const heading = page.locator("h1");
+    
+    await registerPage.heading.waitFor();
+    await expect(registerPage.heading).toHaveText(HEADINGS["REGISTER"]);
+
+    await registerPage.register(username, "", password);
+
+    await expect(page).toHaveURL(URLS["DASHBOARD"]);
+
+    await page.waitForURL(URLS["DASHBOARD"]);
+  });
+
+  test("register user without password", async({ page }) => {
+    const heading = page.locator("h1");
+    
+    await registerPage.heading.waitFor();
+    await expect(registerPage.heading).toHaveText(HEADINGS["REGISTER"]);
+
+    await registerPage.register(username, email, "");
+
+    await expect(page).toHaveURL(URLS["DASHBOARD"]);
+
+    await page.waitForURL(URLS["DASHBOARD"]);
+  });
+
+  test("register user with invalid email format", async({ page }) => {
+    const heading = page.locator("h1");
+    
+    await registerPage.heading.waitFor();
+    await expect(registerPage.heading).toHaveText(HEADINGS["REGISTER"]);
+
+    await registerPage.register(username, utils.generateRandomString(5), password);
+
+    await expect(page).toHaveURL(URLS["DASHBOARD"]);
+
+    await page.waitForURL(URLS["DASHBOARD"]);
+  });
+
   test("register with valid data", async ({ page }) => {
     const heading = page.locator("h1");
-    // await heading.waitFor();
+    
     await registerPage.heading.waitFor();
     await expect(registerPage.heading).toHaveText(HEADINGS["REGISTER"]);
 
@@ -29,7 +82,7 @@ test.describe("register a user", () => {
   test("register with valid data", async ({ page }) => {
     await registerPage.heading.waitFor();
     await expect(registerPage.heading).toHaveText(HEADINGS["REGISTER"]);
-    //turn on event listener
+    
     await registerPage.register(username, email, password);
     const response = await page.waitForResponse(/register*/);
     const responseJSON = await response.json();
