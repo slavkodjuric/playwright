@@ -2,8 +2,7 @@ import { test, expect } from "@playwright/test";
 import { LoginAPI } from "../../POM/modules/API/loginAPI";
 import {
   VALID_LOGIN_PAYLOAD,
-  utils,
-  generateUserCredentials
+  utils
 } from "../../fixtures";
 
 test.describe("login API tests", () => {
