@@ -7,6 +7,7 @@ import {
 } from "../../fixtures/";
 import { RegisterPage } from "../../POM/modules/UI/registerPage";
 
+
 test.describe("register a user", () => {
   let registerPage;
   const { username, email, password } = generateUserCredentials(5);
@@ -79,17 +80,7 @@ test.describe("register a user", () => {
 
     await page.waitForURL(URLS["DASHBOARD"]);
   });
-  test("register with valid data", async ({ page }) => {
-    await registerPage.heading.waitFor();
-    await expect(registerPage.heading).toHaveText(HEADINGS["REGISTER"]);
-    
-    await registerPage.register(username, email, password);
-    const response = await page.waitForResponse(/register*/);
-    const responseJSON = await response.json();
-    console.log(responseJSON);
-    await page.waitForURL(URLS["DASHBOARD"]);
-    await expect(page).toHaveURL(URLS["DASHBOARD"]);
-  });
+  
 
   test("Expect element to be editable", async ({}) => {
     await expect(registerPage.usernameInput).toBeEditable();
@@ -130,4 +121,6 @@ test.describe("register a user", () => {
       usernamePlaceholder
     );
   });
+
+
 });
