@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 import { HEADINGS, URLS, utils, VALID_LOGIN_PAYLOAD } from "../../fixtures";
-import { LoginPage } from "../../POM/modules/UI/loginPage";
+import { LoginPage } from "../../POM/modules/UI/loginPage.js";
 
 
 test.describe("log in user", () => {
@@ -8,7 +8,7 @@ test.describe("log in user", () => {
 
   test.beforeEach("visit the login page", async ({ page }) => {
     loginPage = new LoginPage(page);
-    await page.goto(urls["LOGIN"]);
+    await page.goto(URLS["LOGIN"]);
   });
 
   test("log in attempt without email", async ({ page }) => {
@@ -29,8 +29,8 @@ test.describe("log in user", () => {
     await expect(loginPage.heading).toHaveText(HEADINGS["LOGIN"]);
 
     loginPage.login(
-      VALID_LOGIN_PAYLOAD["EMAIL"]
-      
+      VALID_LOGIN_PAYLOAD["EMAIL"],
+      VALID_LOGIN_PAYLOAD[""]
     );
 
     await page.waitForURL(URLS["LOGIN"]);
